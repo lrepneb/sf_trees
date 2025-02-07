@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SF Tree Growth Visualization</title>
+
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://d3js.org/topojson.v3.min.js"></script>
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: sans-serif;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .neighborhoods {
+      fill: #ddd;
+      stroke: #444;
+      stroke-width: 1px;
+    }
+
+    .bar {
+      stroke: white;
+    }
+
+    h3 {
+      text-align: center;
+      color: #333;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container larger">
+    <h3>San Francisco Tree Growth By Decade (1950-2020)</h3>
+    <svg id="map" width="800" height="600"></svg>
+  </div>
+
+  <script>
+    async function loadData() {
+      const neighborhoods = await d3.json("static/SF-Neighborhoods.geo.json");
+      // console.log("Raw TopoJSON Data:", neighborhoods);
+
+      // if (neighborhoods.type !== "Topology" || !neighborhoods.objects) {
+      //   throw new Error("Invalid TopoJSON format: 'objects' key is missing");
+      // }
+
+      const objectKey = Object.keys(neighborhoods.objects)[0]; // Extract first object key
+      const geoData = topojson.feature(neighborhoods, neighborhoods.objects[objectKey]);
+      // console.log("Converted TopoJSON to GeoJSON:", geoData);
+
+      const trees = await d3.csv("static/Street_Tree_List-2022-01-30_FILTERED.csv");
+      // console.log("Loaded Trees:", trees.length);
+
+      const width = 800, height = 600;
+      const projection = d3.geoMercator().fitSize([width, height], geoData);
+      const path = d3.geoPath().projection(projection);
+      const svg = d3.select("#map");
+
+      // console.log("Projection Test:", projection([-122.4194, 37.7749]));
+
+      svg.selectAll(".neighborhood")
+        .data(geoData.features)
+        .enter().append("path")
+        .attr("class", "neighborhoods")
+        .attr("d", path);
+
+      trees.forEach(d => {
+        let year = new Date(d.PlantDate).getFullYear();
+        d.decade = isNaN(year) ? "Unknown" : Math.floor(year / 10) * 10;
+      });
+      console.log("Tree Decades:", Array.from(new Set(trees.map(d => d.decade))));
+
+      const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
+
+      svg.selectAll(".tree")
+        .data(trees)
+        .enter().append("circle")
+        .attr("class", "tree")
+        .attr("cx", d => {
+          const coords = projection([+d.Longitude, +d.Latitude]);
+          return coords ? coords[0] : null;
+        })
+        .attr("cy", d => {
+          const coords = projection([+d.Longitude, +d.Latitude]);
+          return coords ? coords[1] : null;
+        })
+        .attr("r", 1.5)
+        .attr("fill", d => colorScale(d.decade))
+        .attr("opacity", 0.55);
+    }
+    loadData();
+  </script>
+</body>
+
+</html>
