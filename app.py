@@ -8,8 +8,7 @@ app.wsgi_app = WhiteNoise(app.wsgi_app, root="static/", prefix="static/", index_
 # You can change the prefix up above and get rid of this route if you just want to host static (which begs the question why you don't use something simpler like Github Pages)
 @app.route('/', methods=['GET'])
 def start():
-  # return make_response("Nothing to see here!")
-  return send_from_directory('static', 'index.html')
+  return make_response("I forgot what this does lmao")
 
 if __name__ == "__main__":
   app.run(threaded=True, port=8000)
