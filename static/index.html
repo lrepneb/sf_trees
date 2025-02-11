@@ -121,7 +121,7 @@
           .style("fill", colorScale(category));
         bar.append("text")
           .attr("x", i * categoryWidth + categoryWidth / 2)
-          .attr("y", legendHeight - 10)
+          .attr("y", legendHeight - 15)
           .attr("text-anchor", "middle")
           .style("font-size", "12px")
           .text(category);
@@ -229,7 +229,7 @@
         .call(d3.axisBottom(legendScale).ticks(5));
       legendSvg.append("text")
         .attr("x", heatLegendWidth / 2)
-        .attr("y", heatLegendHeight + 30)
+        .attr("y", heatLegendHeight + 40)
         .attr("text-anchor", "middle")
         .text("Number of Trees");
     }
