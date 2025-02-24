@@ -5,14 +5,14 @@
   - Each tree is plotted as a circle, with its color representing the decade it was planted.
   - Helps visualize spatial patterns in urban forestry.
 
-2. Partitioned Bar Chart (**COMING SOON**)
+2. Partitioned Bar Chart
   - Displays the top 5 most common tree species.
   - Bars show how many trees were planted per decade.
   - Uses the same colors as the map for consistency.
   - Helps analyze which species were popular in different time periods.
 
-### WRITE UP
-For this assignment, I explored San Francisco’s tree-planting trends to 
+### Premise & Breakdown
+For this project, I explored San Francisco’s tree-planting trends to 
 uncover how the city’s urban forestry efforts have evolved over time. The 
 visualization focuses on two key aspects: where trees were planted (using a map) 
 and what species were most popular (using a heatmap). The map groups tree 
