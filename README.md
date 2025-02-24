@@ -5,8 +5,8 @@
   - Each tree is plotted as a circle, with its color representing the decade it was planted.
   - Helps visualize spatial patterns in urban forestry.
 
-2. Partitioned Bar Chart
-  - Displays the top 5 most common tree species.
+2. Heatmap
+  - Displays the top 10 most common tree species.
   - Bars show how many trees were planted per decade.
   - Uses the same colors as the map for consistency.
   - Helps analyze which species were popular in different time periods.
