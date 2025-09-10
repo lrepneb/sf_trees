@@ -1,4 +1,4 @@
-## README
+# sf_trees
 This project visualizes tree planting trends in San Francisco from 1950-2020 using two visualizations:
 1. Tree Map
   - Shows where trees were planted across SF neighborhoods.
